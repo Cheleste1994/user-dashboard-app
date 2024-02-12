@@ -18,4 +18,4 @@ This repository contains a web application for user management. The application 
 
 1. Clone the repository to your local computer.
 2. Install the necessary dependencies using the command `npm install`.
-3. Start the application using the command `npm run dev`.
+3. Start the application using the command `npm run dev` or `yarn dev`.
