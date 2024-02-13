@@ -14,7 +14,7 @@ export const VALIDATION_MESSAGE = {
   },
   password: {
     length: 'YUP_PASS_LENGTH',
-    strength: 'YUP_PASS_STRENGTH',
+    required: 'YUP_PASSWORD_REQUIRED',
   },
 };
 
@@ -34,9 +34,8 @@ const schema = yup
       .required(VALIDATION_MESSAGE.email.required),
     password: yup
       .string()
-      .matches(REGEX.password, VALIDATION_MESSAGE.password.strength)
-      .min(8, VALIDATION_MESSAGE.password.length)
-      .required(),
+      .min(6, VALIDATION_MESSAGE.password.length)
+      .required(VALIDATION_MESSAGE.password.required),
   })
   .required();
 
