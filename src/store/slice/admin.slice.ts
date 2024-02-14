@@ -30,6 +30,8 @@ export interface UserState {
   };
 }
 
+const URL_API = import.meta.env.VITE_SERVER_API;
+
 const initialState: AdminState = {
   isLoading: false,
   isAuth: false,
@@ -39,7 +41,7 @@ const initialState: AdminState = {
 };
 
 export const getUsersList = createAsyncThunk('admin/getUsersList', async () => {
-  const responseList = await fetch('http://localhost:3001/users/list');
+  const responseList = await fetch(URL_API + '/users/list');
   const users = (await responseList.json()) as UserState[];
 
   const checkUsername = users.map((user) => ({
@@ -55,7 +57,7 @@ export const getUsersList = createAsyncThunk('admin/getUsersList', async () => {
 export const updateUser = createAsyncThunk(
   'admin/updateUser',
   async ({ uid, disabled }: { uid: string; disabled: boolean }, thunkAPI) => {
-    const response = await fetch('http://localhost:3001/users', {
+    const response = await fetch(URL_API + '/users', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +75,7 @@ export const updateUser = createAsyncThunk(
 export const deleteUsers = createAsyncThunk(
   'admin/deleteUsers',
   async (usersUid: string[], thunkAPI) => {
-    const response = await fetch('http://localhost:3001/users/:userId', {
+    const response = await fetch(URL_API + '/users/:userId', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
