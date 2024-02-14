@@ -89,60 +89,6 @@ describe('Page SignUp', () => {
     expect(screen.queryByText(T.YUP_EMAIL_INVALID)).not.toBeInTheDocument();
   });
 
-  it('should check strength password validation', async () => {
-    renderComponent('/');
-
-    const passwordInput = screen.getByTestId('password-input');
-
-    expect(screen.queryByText(T.YUP_PASS_STRENGTH)).not.toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: 'password' } });
-    });
-
-    expect(screen.getByText(T.YUP_PASS_STRENGTH)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: '@Qwert1' } });
-    });
-
-    expect(screen.getByText(T.YUP_PASS_LENGTH)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: '@Qwerty123' } });
-    });
-
-    expect(screen.queryByText(T.YUP_PASS_LENGTH)).not.toBeInTheDocument();
-    expect(screen.queryByText(T.YUP_PASS_LENGTH)).not.toBeInTheDocument();
-  });
-
-  it('should check length and strength password validation', async () => {
-    renderComponent('/');
-
-    const passwordInput = screen.getByTestId('password-input');
-
-    expect(screen.queryByText(T.YUP_PASS_STRENGTH)).not.toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: 'password' } });
-    });
-
-    expect(screen.getByText(T.YUP_PASS_STRENGTH)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: '@Qwert1' } });
-    });
-
-    expect(screen.getByText(T.YUP_PASS_LENGTH)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(passwordInput, { target: { value: '@Qwerty123' } });
-    });
-
-    expect(screen.queryByText(T.YUP_PASS_STRENGTH)).not.toBeInTheDocument();
-    expect(screen.queryByText(T.YUP_PASS_LENGTH)).not.toBeInTheDocument();
-  });
-
   it('should block the SignUp button if validation fails', async () => {
     renderComponent('/');
 

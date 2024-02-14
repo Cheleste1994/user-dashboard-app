@@ -35,8 +35,10 @@ export default function SignUpPage() {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = ({ email, password }: SchemaSignUp) => {
-    dispatch(fetchSignUp({ email, password }))
+  const onSubmit = ({ email, password, firstName, lastName }: SchemaSignUp) => {
+    dispatch(
+      fetchSignUp({ email, password, displayName: `${firstName} ${lastName}` })
+    )
       .unwrap()
       .catch((error: SerializedError) => {
         if (error?.message) {

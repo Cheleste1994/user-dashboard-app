@@ -1,17 +1,17 @@
 import { Login, PersonAddAlt1 } from '@mui/icons-material';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import UsersTable from 'src/components/UsersTable/UsersTable';
 import { useAppSelector } from 'src/hooks/redux';
 import { useText } from 'src/hooks/useText';
 import { getUser } from 'src/store/slice/user.slice';
 
 export default function MainPage() {
-  const { isAuth, email } = useAppSelector(getUser);
+  const { isAuth, email, displayName } = useAppSelector(getUser);
   const T = useText();
 
   return (
     <Box
-      mt="auto"
       sx={{
         padding: {
           xs: 2,
@@ -47,9 +47,12 @@ export default function MainPage() {
         </Box>
       )}
       {isAuth && (
-        <Box maxWidth={520} my={3} mx="auto">
-          {`${T.HELLO}, ${email || 'Username'}`}
-        </Box>
+        <>
+          <Box maxWidth={520} my={3} mx="auto">
+            {`${T.HELLO}, ${displayName || email || 'Username'}`}
+          </Box>
+          <UsersTable />
+        </>
       )}
     </Box>
   );

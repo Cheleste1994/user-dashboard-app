@@ -6,7 +6,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
+import { getUsersList } from './admin.slice';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_API_KEY,
@@ -24,29 +26,59 @@ export const auth = getAuth(app);
 export interface UserState {
   isAuth: boolean;
   email: string | null;
+  displayName?: string | null;
+  uid: string | null;
 }
 
 const initialState: UserState = {
   isAuth: localStorage.getItem('isAuth') === 'true' || false,
   email: null,
+  uid: null,
 };
 
 export const fetchSignIn = createAsyncThunk(
   'user/signInWithEmailAndPassword',
-  async ({ email, password }: { email: string; password: string }) => {
+  async (
+    { email, password }: { email: string; password: string },
+    thunkAPI
+  ) => {
     const data = await signInWithEmailAndPassword(auth, email, password);
-
     localStorage.setItem('isAuth', 'true');
-    return { email: data.user.email };
+
+    thunkAPI.dispatch(getUsersList());
+
+    return {
+      email: data.user.email,
+      displayName: auth.currentUser?.displayName,
+      uid: auth.currentUser?.uid,
+    };
   }
 );
 export const fetchSignUp = createAsyncThunk(
   'user/createUserWithEmailAndPassword',
-  async ({ email, password }: { email: string; password: string }) => {
+  async (
+    {
+      email,
+      password,
+      displayName,
+    }: { email: string; password: string; displayName: string },
+    thunkAPI
+  ) => {
     const data = await createUserWithEmailAndPassword(auth, email, password);
 
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName });
+    }
+
     localStorage.setItem('isAuth', 'true');
-    return { email: data.user.email };
+
+    await thunkAPI.dispatch(getUsersList());
+
+    return {
+      email: data.user.email,
+      displayName: auth.currentUser?.displayName,
+      uid: auth.currentUser?.uid,
+    };
   }
 );
 
@@ -59,23 +91,42 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, { payload }: { payload: { email: string | null } }) => {
+    setUser: (
+      state,
+      {
+        payload,
+      }: {
+        payload: {
+          email: string | null;
+          displayName?: string | null;
+          uid: string | null;
+        };
+      }
+    ) => {
       state.isAuth = !!payload.email;
       state.email = payload.email;
+      state.displayName = payload.displayName;
+      state.uid = payload.uid;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       state.isAuth = true;
       state.email = action.payload.email;
+      state.displayName = action.payload.displayName;
+      state.uid = action.payload.uid || null;
     });
     builder.addCase(fetchSignOut.fulfilled, (state) => {
       state.isAuth = false;
       state.email = null;
+      state.displayName = null;
+      state.uid = null;
     });
     builder.addCase(fetchSignUp.fulfilled, (state, action) => {
       state.isAuth = true;
       state.email = action.payload.email;
+      state.displayName = action.payload.displayName;
+      state.uid = action.payload.uid || null;
     });
   },
 });

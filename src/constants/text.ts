@@ -1,6 +1,6 @@
 const TEXT = {
   EN: {
-    HELLO: "Hello",
+    HELLO: 'Hello',
     LANG: 'Language',
     LANG_EN: 'ENG',
     LANG_RU: 'RUS',
@@ -36,7 +36,7 @@ const TEXT = {
     YUP_TANDC: 'Rules not accepted',
   },
   RU: {
-    HELLO: "Привет",
+    HELLO: 'Привет',
     LANG: 'Язык',
     LANG_EN: 'АНГ',
     LANG_RU: 'РУС',

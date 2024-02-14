@@ -6,6 +6,7 @@ describe('Store', () => {
     const initialState: UserState = {
       email: null,
       isAuth: false,
+      uid: null,
     };
 
     const result = userReducer(undefined, { type: '' });

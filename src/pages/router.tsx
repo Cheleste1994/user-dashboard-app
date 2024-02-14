@@ -3,6 +3,7 @@ import React, { lazy, useLayoutEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import AuthRoutes from 'src/components/PrivateRoutes/AuthRoutes/AuthRoutes';
 import UnauthRoutes from 'src/components/PrivateRoutes/UnauthRoutes/UnauthRoutes';
+import { getUsersList, setAdmin } from 'src/store/slice/admin.slice';
 import { useAppDispatch } from '../hooks/redux';
 
 import RootLayout from '../layout/RootLayout';
@@ -21,7 +22,20 @@ const Router = (): React.JSX.Element => {
   useLayoutEffect(() => {
     onAuthStateChanged(auth, (user) => {
       localStorage.setItem('isAuth', user?.email ? 'true' : 'false');
-      dispatch(setUser({ email: user?.email || null }));
+      dispatch(
+        setUser({
+          email: user?.email || null,
+          displayName: user?.displayName,
+          uid: user?.uid || null,
+        })
+      );
+      dispatch(
+        setAdmin({
+          email: user?.email || null,
+          uid: user?.uid || null,
+        })
+      );
+      dispatch(getUsersList());
     });
   }, [dispatch, location.pathname]);
 
