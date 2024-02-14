@@ -90,6 +90,10 @@ export default function UsersTable() {
           [(result.payload as UserState).uid]: (result.payload as UserState)
             .disabled,
         }));
+
+        if (uid === uidAdmin) {
+          await dispatch(fetchSignOut());
+        }
       }
 
       if (!isBlock) {
