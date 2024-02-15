@@ -1,10 +1,5 @@
 import * as yup from 'yup';
 
-const REGEX = {
-  username: /^[A-ZА-Я]/,
-  password: /^(?=.*[^\p{L}\d\s])(?=.*\d)(?=.*\p{Lu})(?=.*\p{Ll}).{4,}$/u,
-};
-
 export const VALIDATION_MESSAGE = {
   firstName: 'YUP_FIRST_LETTER',
   lastName: 'YUP_FIRST_LETTER',
@@ -22,11 +17,9 @@ const schema = yup
   .object({
     firstName: yup
       .string()
-      .matches(REGEX.username, VALIDATION_MESSAGE.firstName)
       .required(),
     lastName: yup
       .string()
-      .matches(REGEX.username, VALIDATION_MESSAGE.lastName)
       .required(),
     email: yup
       .string()

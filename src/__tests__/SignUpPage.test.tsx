@@ -29,46 +29,6 @@ describe('Page SignUp', () => {
     expect(screen.getByTestId('sign-up-page')).toBeInTheDocument();
   });
 
-  it('should check first name validation', async () => {
-    renderComponent('/');
-
-    const firstNameInput = screen.getByTestId('first-name-input');
-
-    expect(screen.queryByText(T.YUP_FIRST_LETTER)).not.toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(firstNameInput, { target: { value: 'firstname' } });
-    });
-
-    expect(screen.getByText(T.YUP_FIRST_LETTER)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(firstNameInput, { target: { value: 'Firstname' } });
-    });
-
-    expect(screen.queryByText(T.YUP_FIRST_LETTER)).not.toBeInTheDocument();
-  });
-
-  it('should check last name validation', async () => {
-    renderComponent('/');
-
-    const lastNameInput = screen.getByTestId('last-name-input');
-
-    expect(screen.queryByText(T.YUP_FIRST_LETTER)).not.toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(lastNameInput, { target: { value: 'lastname' } });
-    });
-
-    expect(screen.getByText(T.YUP_FIRST_LETTER)).toBeInTheDocument();
-
-    await act(async () => {
-      fireEvent.input(lastNameInput, { target: { value: 'Lastname' } });
-    });
-
-    expect(screen.queryByText(T.YUP_FIRST_LETTER)).not.toBeInTheDocument();
-  });
-
   it('should check email validation', async () => {
     renderComponent('/');
 
